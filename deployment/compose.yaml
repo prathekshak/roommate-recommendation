@@ -1,0 +1,45 @@
+services:
+  node-a:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    command: ["python3", "ds/service.py", "--node", "A", "--config", "config.compose.json", "--db", "/app/runtime/A.db"]
+    volumes: ["node-a-data:/app/runtime"]
+    ports: ["8201:8201"]
+    networks: [housing]
+    restart: unless-stopped
+  node-b:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    command: ["python3", "ds/service.py", "--node", "B", "--config", "config.compose.json", "--db", "/app/runtime/B.db"]
+    volumes: ["node-b-data:/app/runtime"]
+    ports: ["8202:8202"]
+    networks: [housing]
+    restart: unless-stopped
+  node-c:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    command: ["python3", "ds/service.py", "--node", "C", "--config", "config.compose.json", "--db", "/app/runtime/C.db"]
+    volumes: ["node-c-data:/app/runtime"]
+    ports: ["8203:8203"]
+    networks: [housing]
+    restart: unless-stopped
+  frontend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    command: ["python3", "-m", "http.server", "8080", "--directory", "ui", "--bind", "0.0.0.0"]
+    ports: ["8080:8080"]
+    networks: [housing]
+    depends_on: [node-a, node-b, node-c]
+    restart: unless-stopped
+
+networks:
+  housing:
+    driver: bridge
+volumes:
+  node-a-data:
+  node-b-data:
+  node-c-data:

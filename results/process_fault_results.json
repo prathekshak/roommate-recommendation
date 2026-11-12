@@ -1,0 +1,7 @@
+{
+  "initial_leader": "A",
+  "new_leader": "B",
+  "recovery_seconds": 1.874,
+  "committed_write_recovered": true,
+  "passed": true
+}

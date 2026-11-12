@@ -1,0 +1,140 @@
+CS249 PROJECT DEMO GUIDE
+
+Requirements: Python 3.9 or newer. No pip install is required for the local
+Python run. Docker is only needed for the optional container deployment.
+
+1. Open Terminal 1 and enter the project
+
+    cd /Users/pratheksha/SJSU/CS/DS-CS249/housing_platform
+    python3 ml/preprocess.py
+
+Expected result: ml/data/processed/roommate_clean.csv,
+ml/data/processed/roommate_clean.json, and summary.json are created. The
+supplied CSV contains 10,000 profiles.
+
+2. Build and start the mandatory Docker deployment
+
+    docker compose -f deployment/compose.yaml build
+    docker compose -f deployment/compose.yaml up -d
+    docker compose -f deployment/compose.yaml ps
+
+This starts nodes A, B, and C plus the frontend. The node ports are 8201,
+8202, and 8203; the frontend is on port 8080.
+
+3. Open the deployed browser frontend
+
+Open http://127.0.0.1:8080 in your browser. The UI automatically targets the
+same host for the selected API node.
+
+4. Check node health and Raft status in Terminal 3
+
+    curl http://127.0.0.1:8201/health
+    curl http://127.0.0.1:8202/health
+    curl http://127.0.0.1:8203/health
+    curl http://127.0.0.1:8201/raft/status
+
+One node should report role leader. The other two should report follower. The
+health response includes membership, leader, event count, Lamport clock, and
+failure alerts.
+
+5. Inspect profiles and generate a recommendation
+
+    curl 'http://127.0.0.1:8201/profiles'
+    curl 'http://127.0.0.1:8201/recommendations/100000?limit=5'
+
+The response includes compatibility scores, reasons, and shared interests.
+
+6. Demonstrate listing creation, search, and replication
+
+    curl -X POST http://127.0.0.1:8201/listings \
+      -H 'Content-Type: application/json' \
+      -d '{"title":"Sunny room near campus","location":"Kathmandu","monthly_rent":12000,"amenities":["wifi","laundry"]}'
+
+    sleep 1
+    curl 'http://127.0.0.1:8202/listings?location=Kathmandu&max_rent=15000'
+    curl http://127.0.0.1:8203/events
+
+The listing is committed through Raft and appears on the surviving replicas.
+
+7. Demonstrate subscriptions and notifications
+
+    curl -X POST http://127.0.0.1:8201/subscriptions \
+      -H 'Content-Type: application/json' \
+      -d '{"user_id":"100000","event_kind":"recommendation.generated"}'
+
+    curl -X POST http://127.0.0.1:8201/recommendations \
+      -H 'Content-Type: application/json' \
+      -d '{"user_id":"100000","limit":3}'
+
+    curl http://127.0.0.1:8201/notifications/100000
+
+The notification should report delivery_status as delivered because the event
+matches the subscription.
+
+8. Demonstrate reservation concurrency control
+
+Use a listing_id returned by step 6:
+
+    curl -X POST http://127.0.0.1:8201/reservations \
+      -H 'Content-Type: application/json' \
+      -d '{"listing_id":"LISTING_ID","user_id":"100000"}'
+
+    curl -X POST http://127.0.0.1:8202/reservations \
+      -H 'Content-Type: application/json' \
+      -d '{"listing_id":"LISTING_ID","user_id":"100001"}'
+
+    curl http://127.0.0.1:8201/reservations
+
+The replicated state converges on one deterministic reservation winner.
+
+9. Demonstrate leader failure and recovery
+
+    curl http://127.0.0.1:8201/leader
+
+Stop the process or container corresponding to the current Raft leader. Wait
+for a new election, then query the survivors:
+
+    curl http://127.0.0.1:8201/raft/status
+    curl http://127.0.0.1:8202/raft/status
+    curl http://127.0.0.1:8203/raft/status
+
+The surviving majority should elect a replacement leader and preserve
+committed state.
+
+10. Run tests and measurements after the demo
+
+    python3 -m unittest discover -s ds/tests -p 'test_*.py' -v
+    python3 demo.py
+    python3 ml/benchmark.py
+    python3 ds/fault_test.py
+    python3 ds/evaluate.py
+    python3 ds/process_fault_test.py
+    python3 ds/metrics.py
+
+The evaluation scripts report scoring latency, throughput, micro-batching,
+event replication, consistency, leader recovery time, and generate:
+
+    results/evaluation_metrics.json
+    results/process_fault_results.json
+    results/latency-scalability.svg
+    results/raft-recovery.svg
+
+11. Stop the deployed stack
+
+    docker compose -f deployment/compose.yaml down
+
+Named volumes remain. Use `down -v` only if you intentionally want to delete
+the node databases.
+
+12. Optional local Python development run
+
+If Docker is unavailable, use this only as a development fallback—not as the
+mandatory deployment demo. Start the nodes manually in three terminals:
+
+    ./run.sh
+
+Then start the UI separately:
+
+    python3 -m http.server 8080 --directory ui
+
+See deployment/DEPLOYMENT.md for EC2 deployment instructions.

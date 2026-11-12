@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Local profile data and generated database state
+/ml/data/
+*.db
+/results/recommendations_*.json

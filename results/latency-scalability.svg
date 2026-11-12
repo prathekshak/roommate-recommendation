@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" role="img" aria-label="Recommendation latency by candidate dataset size"><style>text{font-family:system-ui,sans-serif;fill:#24323a}.grid{stroke:#dce4e6}.line{fill:none;stroke:#1f6f62;stroke-width:3}.dot{fill:#d07a39}</style><rect width="100%" height="100%" fill="#f7f8f6"/><text x="70" y="25" font-size="20" font-weight="700">Recommendation latency and scalability</text>
+<line class="grid" x1="70" x2="895" y1="415.0" y2="415.0"/><text x="8" y="419.0" font-size="12">0.0 ms</text>
+<line class="grid" x1="70" x2="895" y1="320.0" y2="320.0"/><text x="8" y="324.0" font-size="12">4.8 ms</text>
+<line class="grid" x1="70" x2="895" y1="225.0" y2="225.0"/><text x="8" y="229.0" font-size="12">9.6 ms</text>
+<line class="grid" x1="70" x2="895" y1="130.0" y2="130.0"/><text x="8" y="134.0" font-size="12">14.4 ms</text>
+<line class="grid" x1="70" x2="895" y1="35.0" y2="35.0"/><text x="8" y="39.0" font-size="12">19.3 ms</text>
+<path class="line" d="M 70.0 410.0 L 275.0 392.2 L 480.0 375.2 L 685.0 220.7 L 890.0 35.0"/>
+<circle class="dot" cx="70.0" cy="410.0" r="5"><title>100 candidates: p95 0.25 ms</title></circle><text x="55.0" y="448" font-size="12">100</text>
+<circle class="dot" cx="275.0" cy="392.2" r="5"><title>500 candidates: p95 1.16 ms</title></circle><text x="260.0" y="448" font-size="12">500</text>
+<circle class="dot" cx="480.0" cy="375.2" r="5"><title>1000 candidates: p95 2.02 ms</title></circle><text x="465.0" y="448" font-size="12">1000</text>
+<circle class="dot" cx="685.0" cy="220.7" r="5"><title>5000 candidates: p95 9.85 ms</title></circle><text x="670.0" y="448" font-size="12">5000</text>
+<circle class="dot" cx="890.0" cy="35.0" r="5"><title>10000 candidates: p95 19.26 ms</title></circle><text x="875.0" y="448" font-size="12">10000</text>
+<text x="400.0" y="467" font-size="12">candidate profiles</text></svg>

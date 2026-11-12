@@ -1,0 +1,7 @@
+{
+  "nodes": {
+    "A": {"host": "127.0.0.1", "port": 8201, "priority": 1, "peers": ["B", "C"]},
+    "B": {"host": "127.0.0.1", "port": 8202, "priority": 2, "peers": ["A", "C"]},
+    "C": {"host": "127.0.0.1", "port": 8203, "priority": 3, "peers": ["A", "B"]}
+  }
+}

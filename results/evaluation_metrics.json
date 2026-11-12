@@ -1,0 +1,41 @@
+{
+  "recommendation_latency": [
+    {
+      "candidate_count": 100,
+      "p50_ms": 0.214,
+      "p95_ms": 0.252,
+      "throughput_per_second": 4569.51
+    },
+    {
+      "candidate_count": 500,
+      "p50_ms": 1.007,
+      "p95_ms": 1.157,
+      "throughput_per_second": 964.74
+    },
+    {
+      "candidate_count": 1000,
+      "p50_ms": 1.936,
+      "p95_ms": 2.016,
+      "throughput_per_second": 521.6
+    },
+    {
+      "candidate_count": 5000,
+      "p50_ms": 9.216,
+      "p95_ms": 9.847,
+      "throughput_per_second": 108.16
+    },
+    {
+      "candidate_count": 10000,
+      "p50_ms": 18.305,
+      "p95_ms": 19.263,
+      "throughput_per_second": 54.26
+    }
+  ],
+  "fault_recovery": {
+    "initial_leader": "A",
+    "new_leader": "B",
+    "recovery_seconds": 1.874,
+    "committed_write_recovered": true,
+    "passed": true
+  }
+}
