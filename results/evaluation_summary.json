@@ -1,20 +1,15 @@
 {
-  "dataset_rows": 10000,
-  "locations": 25,
-  "average_budget_min": 12273.51,
-  "average_budget_max": 15484.87,
-  "sample_user_id": "100000",
-  "sample_top_match_id": "101794",
-  "sample_top_match_score": 85.0,
-  "distributed_smoke_test": "passed",
-  "distributed_structure_tests": "9 passed",
-  "event_replicated": true,
-  "consistency_check": true,
+  "profiles": 10000,
+  "batcher": {
+    "batches": 2,
+    "requests": 10,
+    "max_batch": 8
+  },
+  "event_replicated_and_deduplicated": true,
+  "notification_delivered": true,
+  "reservation_conflict_resolved": true,
   "failure_alerts": 1,
   "leader_after_C_failure": "B",
-  "process_fault_recovery": "passed",
-  "committed_write_recovered": true,
-  "microbatch_requests": 10,
-  "leader_election": "C initially; highest-priority alive node",
-  "failure_detection": "3 missed heartbeats at 2 seconds each"
+  "consistency_check": true,
+  "core_passed": true
 }

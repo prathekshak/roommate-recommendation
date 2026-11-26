@@ -2,11 +2,16 @@
 """Clean the downloaded roommate dataset and produce local artifacts."""
 import argparse, csv, json, os, statistics
 
+from generate_dataset import generate
+
 REQUIRED = ["user_id", "age", "location", "budget_min", "budget_max", "sleep_schedule", "smoking", "drinking", "cleanliness", "noise_level", "food_preference", "pets", "study_habit", "interests", "gender_preference", "room_type_preference"]
 
 def clean(src, out_csv, out_json, stats_path):
     os.makedirs(os.path.dirname(out_csv), exist_ok=True)
     rows, seen = [], set()
+    if not os.path.exists(src):
+        generate(src)
+        print(f"source_missing=generated_deterministic_dataset path={src}")
     with open(src, newline="", encoding="utf-8") as fh:
         reader = csv.DictReader(fh)
         missing = [x for x in REQUIRED if x not in (reader.fieldnames or [])]
@@ -22,6 +27,8 @@ def clean(src, out_csv, out_json, stats_path):
                 if row["budget_min"] > row["budget_max"]: continue
             except (TypeError, ValueError): continue
             seen.add(uid); rows.append(row)
+    if not rows:
+        raise ValueError("No valid rows found in input dataset")
     fields = list(rows[0])
     with open(out_csv, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fields); writer.writeheader(); writer.writerows(rows)

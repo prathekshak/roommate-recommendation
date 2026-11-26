@@ -2,7 +2,9 @@ __pycache__/
 *.py[cod]
 .DS_Store
 
-# Local profile data and generated database state
-/ml/data/
+# Generated profile data and local database state
+/ml/data/processed/
+/ml/data/raw/
+/ml/data/*.db
 *.db
 /results/recommendations_*.json

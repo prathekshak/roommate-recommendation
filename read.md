@@ -54,9 +54,11 @@ single machine.
 
 ## Dataset and preprocessing result
 
-The downloaded source is `ml/data/raw/roommate_dataset.csv`, a public roommate
-lifestyle-preference CSV. It contains 10,000 rows and 20 columns. Running the
-preprocessor creates `ml/data/processed/roommate_clean.csv`,
+The preferred source is `ml/data/raw/roommate_dataset.csv`, a roommate
+lifestyle-preference CSV with the required schema. A clean clone does not need
+to download anything: when that file is absent, the preprocessor creates a
+deterministic 10,000-row demo dataset using `ml/generate_dataset.py` (seed
+249). Running the preprocessor creates `ml/data/processed/roommate_clean.csv`,
 `roommate_clean.json`, and `summary.json`.
 
 The observed source data has 25 locations, integer budgets, categorical
@@ -66,7 +68,7 @@ and preference fields.
 
 ## How to reproduce results
 
-    cd /Users/pratheksha/SJSU/CS/DS-CS249/housing_platform
+    cd roommate-recommendation
     python3 ml/preprocess.py
     python3 demo.py
 
@@ -80,14 +82,16 @@ Saved result artifacts are available in `results/evaluation_summary.json` and
 Run the unit tests with `python3 -m unittest discover -s ds/tests -p 'test_*.py' -v`.
 Run `python3 ml/benchmark.py` for a repeatable scoring throughput measurement and
 `python3 ds/fault_test.py` for the failure-detection configuration.
-Run `python3 ds/evaluate.py` for the combined evaluation report.
+Run `python3 ds/evaluate.py` for the combined evaluation report. It also
+checks event de-duplication, notification delivery, reservation conflict
+resolution, replication, and micro-batching, then writes
+`results/evaluation_summary.json`.
 
 ## Limitations and next steps
 
 This is a research/demo prototype, not a production housing marketplace. It
 does not claim that compatibility scores are ground-truth outcomes, and the
-dataset is lifestyle data rather than verified housing listings. The proposal's
-micro-batching, worker-pool benchmark, versioned scoring-configuration
-conflict demo, Docker deployment, and dashboard remain stretch/future work.
-The reservation and profile conflict paths provide the core concurrency-control
-demonstration.
+dataset is lifestyle data rather than verified housing listings. The browser
+console is intentionally lightweight. The reservation and profile conflict
+paths provide the core concurrency-control demonstration; the process-level
+Raft test provides the leader-failure demonstration.
