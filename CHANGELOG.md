@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.1 - Complete implementation documentation
+
+### Improved
+
+- Replaced the short README with a full implementation guide covering the
+  architecture, algorithms, event model, API, UI, deployment, evaluation, and
+  known limitations.
+
 ## v1.1.0 - Reproducible completion
 
 ### Added
