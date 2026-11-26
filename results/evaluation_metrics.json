@@ -2,39 +2,39 @@
   "recommendation_latency": [
     {
       "candidate_count": 100,
-      "p50_ms": 0.214,
-      "p95_ms": 0.252,
-      "throughput_per_second": 4569.51
+      "p50_ms": 0.428,
+      "p95_ms": 0.589,
+      "throughput_per_second": 2255.22
     },
     {
       "candidate_count": 500,
-      "p50_ms": 1.007,
-      "p95_ms": 1.157,
-      "throughput_per_second": 964.74
+      "p50_ms": 2.178,
+      "p95_ms": 2.358,
+      "throughput_per_second": 454.26
     },
     {
       "candidate_count": 1000,
-      "p50_ms": 1.936,
-      "p95_ms": 2.016,
-      "throughput_per_second": 521.6
+      "p50_ms": 4.545,
+      "p95_ms": 8.043,
+      "throughput_per_second": 203.18
     },
     {
       "candidate_count": 5000,
-      "p50_ms": 9.216,
-      "p95_ms": 9.847,
-      "throughput_per_second": 108.16
+      "p50_ms": 23.417,
+      "p95_ms": 24.095,
+      "throughput_per_second": 42.52
     },
     {
       "candidate_count": 10000,
-      "p50_ms": 18.305,
-      "p95_ms": 19.263,
-      "throughput_per_second": 54.26
+      "p50_ms": 48.975,
+      "p95_ms": 53.415,
+      "throughput_per_second": 20.11
     }
   ],
   "fault_recovery": {
-    "initial_leader": "A",
+    "initial_leader": "C",
     "new_leader": "B",
-    "recovery_seconds": 1.874,
+    "recovery_seconds": 2.492,
     "committed_write_recovered": true,
     "passed": true
   }

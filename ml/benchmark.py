@@ -3,6 +3,11 @@
 import json, os, sys, time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); sys.path.insert(0, os.path.join(ROOT, "ml"))
 from recommender import recommend
+from preprocess import clean
+
+raw = os.path.join(ROOT, "ml/data/raw/roommate_dataset.csv")
+processed = os.path.join(ROOT, "ml/data/processed")
+clean(raw, os.path.join(processed, "roommate_clean.csv"), os.path.join(processed, "roommate_clean.json"), os.path.join(processed, "summary.json"))
 with open(os.path.join(ROOT, "ml/data/processed/roommate_clean.json"), encoding="utf-8") as fh: rows = json.load(fh)
 start = time.perf_counter(); requests = 20
 for i in range(requests): recommend(rows[i], rows, 10)
